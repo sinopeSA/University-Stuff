@@ -8,49 +8,47 @@
  * File:   main.c
  * Author: SHUBHAM AGARWAL
  *
- * Created on September 6, 2019, 12:14 PM
+ * Created on August 30, 2019, 11:51 AM
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-
-struct node {
-    unsigned distance[20];
-    unsigned from[20];
-} routingTable[10];
-
+#include <math.h>
 int main(int argc, char** argv) {
-    int distanceMat[20][20];
-    int node, i, j, k, count = 0;
-    printf("\nEnter the number of nodes : ");
-    scanf("%d", &node);
-    printf("\nEnter the cost matrix :\n");
-    for (i = 0; i < node; i++)
-        for (j = 0; j < node; j++) {
-            scanf("%d", &distanceMat[i][j]);
-            distanceMat[i][i] = 0;
-            routingTable[i].distance[j] = distanceMat[i][j];
-            routingTable[i].from[j] = j;
+    int i,j;
+    float x[100],y[100],distancetable[100][100],nodedistance,n=10,noderange;
+       printf("co-ordinates are:\nX-co-ordinate:");
+    for(i=1;i<=n;i++)
+    {
+        x[i]=1+ rand()%10;
+        y[i]=1+ rand()%50;
+        printf("|%.2f ",x[i]);
+    }
+       printf("\ny-co-ordinate:");
+        for(i=1;i<=n;i++)
+        {
+            printf("|%.2f ",y[i]);
         }
-    do {
-        count = 0;
-        for (i = 0; i < node; i++)
-            for (j = 0; j < node; j++)
-                for (k = 0; k < node; k++)
-                    if (routingTable[i].distance[j] > distanceMat[i][k] + routingTable[k].distance[j]) {
-                        routingTable[i].distance[j] = routingTable[i].distance[k] + routingTable[k].distance[j];
-                        routingTable[i].from[j] = k;
-                        count++;
-                    }
-    } while (count != 0);
-    for (i = 0; i < node; i++) {
-        printf("\n\nState value for router %d is \n", i + 1);
-         printf("\t\nDestination node:\tNEXT HOP:\t Cost:\n");
-        for (j = 0; j < node; j++) {
-            printf("\n%d\t\t\t%d\t%d", j + 1, routingTable[i].from[j] + 1, routingTable[i].distance[j]);
+        printf("\nThe Neighbor Table is:\n");
+        printf("\t 1 \t 2\t 3\t 4\t 5\t 6\t 7\t 8\t 9\t 10\t\n\n");
+    for(i=1;i<=n;i++)
+    { printf("%d \t",i);
+        for(j=1;j<=n;j++)
+        {
+            distancetable[i][j]=sqrt(((x[i]-x[j])*(x[i]-x[j]))+((y[i]-y[j])*(y[i]-y[j])));
+            printf("|%.2f\t",distancetable[i][j]);
+        } printf("\n");
+    }
+    printf("Enter the range of the node:");
+    scanf("%f",&noderange);
+     for(i=1;i<=n;i++)
+    {
+          printf("\nThe Neighbor of %d  is: ",i);
+        for(j=1;j<=n;j++)
+        {
+            if(distancetable[i][j]<=noderange &&i!=j)
+                printf("|%d| ",j);
         }
     }
-    printf("\n\n");
     return (EXIT_SUCCESS);
 }
-
